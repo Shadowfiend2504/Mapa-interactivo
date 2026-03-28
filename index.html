@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bogotá Artística & Cultural — Mapa Interactivo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<!-- ═══ PANTALLA DE CARGA ══════════════════════════════════ -->
+<div id="loading-screen">
+  <div class="loading-emblem">
+    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="60" r="54" stroke="#c9a84c" stroke-width="1" stroke-dasharray="6 4"/>
+      <circle cx="60" cy="60" r="44" stroke="#7a5f28" stroke-width="0.5"/>
+      <path d="M60 15 L65 50 L60 55 L55 50 Z" fill="#c9a84c" opacity="0.8"/>
+      <path d="M60 105 L65 70 L60 65 L55 70 Z" fill="#c9a84c" opacity="0.8"/>
+      <path d="M15 60 L50 55 L55 60 L50 65 Z" fill="#c9a84c" opacity="0.8"/>
+      <path d="M105 60 L70 55 L65 60 L70 65 Z" fill="#c9a84c" opacity="0.8"/>
+      <circle cx="60" cy="60" r="8" fill="#c9a84c" opacity="0.3"/>
+      <circle cx="60" cy="60" r="4" fill="#c9a84c"/>
+      <!-- Runas decorativas -->
+      <text x="60" y="62" text-anchor="middle" font-family="serif" font-size="5" fill="#c9a84c" opacity="0.5">✦ BOGOTÁ ✦</text>
+    </svg>
+  </div>
+  <div class="topbar-title-group" style="text-align:center">
+    <div class="loading-title">Bogotá Cultural</div>
+    <div class="loading-subtitle">Mapa Artístico Interactivo</div>
+  </div>
+  <div class="loading-bar-wrap">
+    <div class="loading-bar" id="loading-bar"></div>
+  </div>
+</div>
+
+<!-- ═══ APP ════════════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- Vignette -->
+  <div id="vignette"></div>
+
+  <!-- Mapa -->
+  <div id="map-container">
+    <div id="map"></div>
+  </div>
+
+  <!-- Overlay oscurecedor -->
+  <div id="overlay" onclick="closePanel()"></div>
+
+  <!-- Topbar -->
+  <div id="topbar">
+    <div class="topbar-logo">
+      <svg class="topbar-logo-icon" viewBox="0 0 36 36" fill="none">
+        <circle cx="18" cy="18" r="16" stroke="#c9a84c" stroke-width="1"/>
+        <path d="M18 4 L20 16 L18 18 L16 16 Z" fill="#c9a84c"/>
+        <path d="M18 32 L20 20 L18 18 L16 20 Z" fill="#c9a84c"/>
+        <path d="M4 18 L16 16 L18 18 L16 20 Z" fill="#c9a84c"/>
+        <path d="M32 18 L20 16 L18 18 L20 20 Z" fill="#c9a84c"/>
+        <circle cx="18" cy="18" r="3" fill="#c9a84c" opacity="0.6"/>
+      </svg>
+      <div class="topbar-title-group">
+        <span class="topbar-title">Bogotá Cultural</span>
+        <span class="topbar-subtitle">Mapa Artístico</span>
+      </div>
+    </div>
+
+    <div class="topbar-nav">
+      <button class="nav-btn active" onclick="setView('mapa')">Mapa</button>
+      <button class="nav-btn" onclick="setView('lugares')">Lugares</button>
+      <button class="nav-btn" onclick="setView('rutas')">Rutas</button>
+      <button class="nav-btn" onclick="setView('acerca')">Acerca</button>
+    </div>
+
+    <div class="topbar-right">
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input type="text" placeholder="Buscar lugar..." oninput="filterSearch(this.value)">
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtros de categoría -->
+  <div id="filters-panel">
+    <button class="filter-btn active" data-cat="all" onclick="filterCat('all',this)">
+      <span class="dot" style="background:var(--gold)"></span> Todos
+    </button>
+    <button class="filter-btn" data-cat="cine" onclick="filterCat('cine',this)">
+      <span class="dot" style="background:var(--cat-cine)"></span> Cine
+    </button>
+    <button class="filter-btn" data-cat="teatro" onclick="filterCat('teatro',this)">
+      <span class="dot" style="background:var(--cat-teatro)"></span> Teatro
+    </button>
+    <button class="filter-btn" data-cat="museo" onclick="filterCat('museo',this)">
+      <span class="dot" style="background:var(--cat-museo)"></span> Museo
+    </button>
+    <button class="filter-btn" data-cat="galeria" onclick="filterCat('galeria',this)">
+      <span class="dot" style="background:var(--cat-galeria)"></span> Galería
+    </button>
+    <button class="filter-btn" data-cat="danza" onclick="filterCat('danza',this)">
+      <span class="dot" style="background:var(--cat-danza)"></span> Danza
+    </button>
+    <button class="filter-btn" data-cat="musica" onclick="filterCat('musica',this)">
+      <span class="dot" style="background:var(--cat-musica)"></span> Música
+    </button>
+  </div>
+
+  <!-- Leyenda de zonas -->
+  <div id="zones-legend">
+    <div class="legend-title">Zonas</div>
+    <div class="legend-row">
+      <div class="legend-dot" style="background:var(--zone-chapinero)"></div>
+      <span class="legend-label">Chapinero</span>
+    </div>
+    <div class="legend-row">
+      <div class="legend-dot" style="background:var(--zone-usaquen)"></div>
+      <span class="legend-label">Usaquén</span>
+    </div>
+    <div class="legend-row">
+      <div class="legend-dot" style="background:var(--zone-kennedy)"></div>
+      <span class="legend-label">Kennedy</span>
+    </div>
+  </div>
+
+  <!-- Botones de rutas -->
+  <div id="routes-panel">
+    <button class="route-btn" data-route="cinefila" onclick="activateRoute('cinefila',this)">
+      <span class="route-icon">🎬</span> Ruta Cinéfila
+    </button>
+    <button class="route-btn" data-route="cultural" onclick="activateRoute('cultural',this)">
+      <span class="route-icon">🏛️</span> Ruta Cultural
+    </button>
+    <button class="route-btn" data-route="escénica" onclick="activateRoute('escénica',this)">
+      <span class="route-icon">🎭</span> Ruta Escénica
+    </button>
+    <button class="route-btn" data-route="urbana" onclick="activateRoute('urbana',this)">
+      <span class="route-icon">🎨</span> Ruta Urbana
+    </button>
+  </div>
+
+  <!-- Panel lateral de lugar -->
+  <div id="side-panel">
+    <button class="panel-close" onclick="closePanel()">✕</button>
+    <div class="panel-hero">
+      <img class="panel-hero-img" id="panel-img" src="" alt="">
+      <div class="panel-hero-gradient"></div>
+      <span class="panel-hero-cat" id="panel-cat-badge"></span>
+    </div>
+    <div class="panel-body">
+      <div class="panel-zone-tag" id="panel-zone"></div>
+      <div class="panel-name" id="panel-name">Nombre del Lugar</div>
+      <div class="panel-desc" id="panel-desc">Descripción del lugar cultural.</div>
+      <div class="panel-special-box" id="panel-special"></div>
+
+      <div class="panel-divider"></div>
+      <div class="panel-section-title">Información práctica</div>
+
+      <div class="info-grid" id="panel-info-grid"></div>
+
+      <div class="panel-divider"></div>
+      <div class="panel-section-title">Etiquetas</div>
+      <div class="tag-row" id="panel-tags"></div>
+
+      <div class="panel-cta-row">
+        <a class="cta-btn cta-primary" id="panel-gmaps" href="#" target="_blank">Ver en Google Maps</a>
+        <a class="cta-btn cta-secondary" id="panel-web" href="#" target="_blank">Sitio web</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ornamentos de esquina -->
+  <svg class="corner-ornament tl" viewBox="0 0 60 60"><path d="M0 0 L60 0 L0 60 Z" fill="none" stroke="#c9a84c" stroke-width="1"/><path d="M0 0 L30 0 L0 30 Z" fill="#c9a84c" opacity="0.15"/></svg>
+  <svg class="corner-ornament tr" viewBox="0 0 60 60"><path d="M0 0 L60 0 L0 60 Z" fill="none" stroke="#c9a84c" stroke-width="1"/><path d="M0 0 L30 0 L0 30 Z" fill="#c9a84c" opacity="0.15"/></svg>
+  <svg class="corner-ornament bl" viewBox="0 0 60 60"><path d="M0 0 L60 0 L0 60 Z" fill="none" stroke="#c9a84c" stroke-width="1"/><path d="M0 0 L30 0 L0 30 Z" fill="#c9a84c" opacity="0.15"/></svg>
+  <svg class="corner-ornament br" viewBox="0 0 60 60"><path d="M0 0 L60 0 L0 60 Z" fill="none" stroke="#c9a84c" stroke-width="1"/><path d="M0 0 L30 0 L0 30 Z" fill="#c9a84c" opacity="0.15"/></svg>
+
+</div><!-- /#app -->
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="data/lugares.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
+
