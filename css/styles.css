@@ -838,7 +838,7 @@
         height: auto;
         max-height: 80vh;
         transform: translateY(100%);
-        z-index: 600;
+        z-index: 1200; /* elevar sobre topbar y filtros en móvil */
       }
       #side-panel.open {
         transform: translateY(0);
@@ -849,7 +849,8 @@
     @media (max-width: 599px) {
       :root { --panel-w: 100vw; }
       
-      body { font-size: 14px; }
+      /* Allow page scrolling on small devices to prevent fixed-overlap issues */
+      body { font-size: 14px; overflow: auto; }
       
       #topbar {
         position: static;
@@ -945,27 +946,25 @@
         display: none;
       }
       
+      /* Add extra top/bottom padding so floating controls don't overlap the map content */
       #map-container {
-        padding-top: 0;
-        padding-bottom: 100px;
+        padding-top: 110px;
+        padding-bottom: 160px;
       }
       
-      #side-panel {
-        width: 100vw;
+      #filters-panel {
         position: fixed;
-        bottom: 0;
-        right: 0;
-        top: auto;
+        top: 56px; /* place just below the topbar */
         left: 0;
-        border-left: none;
-        border-top: 1px solid rgba(201,168,76,0.15);
-        height: auto;
-        max-height: 85vh;
-        transform: translateY(100%);
-        z-index: 600;
-      }
-      #side-panel.open {
-        transform: translateY(0);
+        right: 0;
+        width: 100%;
+        gap: 0.25rem;
+        padding: 0.4rem 0.5rem;
+        transform: none;
+        z-index: 1050;
+        background: rgba(0,0,0,0.4);
+        flex-wrap: wrap;
+        justify-content: center;
       }
       
       .panel-close {
@@ -976,7 +975,7 @@
         height: 36px;
         background: rgba(201,168,76,0.15);
         border: 1px solid rgba(201,168,76,0.4);
-        z-index: 620;
+        z-index: 1220;
       }
       
       .panel-hero { height: 180px; }
@@ -1010,6 +1009,8 @@
       
       .custom-marker-inner { font-size: 0.7rem; }
       .zone-label-icon { font-size: 0.6rem; }
+      /* overlay encima */
+      #overlay { z-index: 1190; }
     }
 
     /* Celulares muy pequeños: <= 480px */

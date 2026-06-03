@@ -71,6 +71,10 @@ function renderMarkers(list) {
   markers = [];
 
   list.forEach(lugar => {
+    if (typeof lugar.lat !== 'number' || typeof lugar.lng !== 'number') {
+      console.warn('Lugar sin coordenadas:', lugar.nombre);
+      return;
+    }
     const m = L.marker([lugar.lat, lugar.lng], { icon: createMarkerIcon(lugar) });
     m.bindTooltip(lugar.nombre, {
       className: 'map-tooltip',
@@ -185,8 +189,9 @@ function applyFilters() {
   renderMarkers(filtered);
 
   // Zoom a resultados
-  if (filtered.length > 0 && filtered.length < LUGARES.length) {
-    const bounds = L.latLngBounds(filtered.map(l => [l.lat, l.lng]));
+  const withCoords = filtered.filter(l => typeof l.lat === 'number' && typeof l.lng === 'number');
+  if (withCoords.length > 0 && withCoords.length < LUGARES.length) {
+    const bounds = L.latLngBounds(withCoords.map(l => [l.lat, l.lng]));
     map.fitBounds(bounds.pad(0.3));
   }
 }
