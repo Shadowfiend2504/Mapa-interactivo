@@ -43,10 +43,11 @@ La fase inicial se concentra en Chapinero, por su alta densidad cultural y su va
 3. Ejecuta la vista previa con un servidor local, por ejemplo Live Server.
 4. Abre `index.html` en el navegador.
 
-## Autoría
+## Autoría y desarrollo
 
-Proyecto académico desarrollado por Angélica María Pacheco Rojas en el marco de la propuesta “Guía del turista del arte”.
+Idea y autoría del proyecto: Angélica María Pacheco Rojas.
 
-## Descripción corta para el repositorio
+Desarrollo: Juan Sebastián Carvajal Cárdenas.
 
-Mapa interactivo de Bogotá para explorar espacios culturales, filtrar lugares por categoría y seguir rutas temáticas de arte, cine, teatro y más.
+Perfil de GitHub: https://github.com/Shadowfiend2504
+
