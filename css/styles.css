@@ -228,7 +228,7 @@
     /* ─── FILTROS FLOTANTES ─────────────────────────────── */
     #filters-panel {
       position: absolute;
-      top: 80px;
+      top: 96px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 1000;
@@ -710,7 +710,7 @@
       .search-wrap input { width: 100px; }
       
       #filters-panel {
-        top: 75px;
+        top: 88px;
         gap: 0.35rem;
         z-index: 1001;
       }
@@ -781,12 +781,13 @@
       }
       
       #filters-panel {
-        position: fixed;
-        top: 58px;
-        left: 0;
-        right: 0;
+        position: static;
+        top: auto;
+        left: auto;
+        right: auto;
         width: 100%;
         gap: 0.3rem;
+        margin-top: 0.35rem;
         padding: 0.4rem;
         transform: none;
         background: rgba(0,0,0,0.3);
@@ -815,6 +816,11 @@
         font-size: 0.52rem;
         flex: 1 1 calc(50% - 0.2rem);
         min-width: 100px;
+      }
+
+      .leaflet-bottom.leaflet-right {
+        bottom: 200px !important;
+        right: 0.75rem !important;
       }
       
       #zones-legend {
@@ -902,13 +908,14 @@
       }
       
       #filters-panel {
-        position: fixed;
+        position: static;
         top: auto;
         bottom: auto;
-        left: 0;
-        right: 0;
+        left: auto;
+        right: auto;
         width: 100%;
         gap: 0.25rem;
+        margin-top: 0.35rem;
         padding: 0.4rem 0.5rem;
         transform: none;
         z-index: 1050;
@@ -940,6 +947,11 @@
         font-size: 0.5rem;
         width: 100%;
         min-height: 36px;
+
+      .leaflet-bottom.leaflet-right {
+        bottom: 210px !important;
+        right: 0.5rem !important;
+      }
       }
       
       #zones-legend {
@@ -953,12 +965,13 @@
       }
       
       #filters-panel {
-        position: fixed;
-        top: 56px; /* place just below the topbar */
-        left: 0;
-        right: 0;
+        position: static;
+        top: auto;
+        left: auto;
+        right: auto;
         width: 100%;
         gap: 0.25rem;
+        margin-top: 0.4rem;
         padding: 0.4rem 0.5rem;
         transform: none;
         z-index: 1050;
