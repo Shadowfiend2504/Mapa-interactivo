@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bogotá Artística & Cultural — Lugares</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="static-page">
+  <div id="app">
+    <div id="topbar">
+      <div class="topbar-logo">
+        <svg class="topbar-logo-icon" viewBox="0 0 36 36" fill="none">
+          <circle cx="18" cy="18" r="16" stroke="#c9a84c" stroke-width="1"/>
+          <path d="M18 4 L20 16 L18 18 L16 16 Z" fill="#c9a84c"/>
+          <path d="M18 32 L20 20 L18 18 L16 20 Z" fill="#c9a84c"/>
+          <path d="M4 18 L16 16 L18 18 L16 20 Z" fill="#c9a84c"/>
+          <path d="M32 18 L20 16 L18 18 L20 20 Z" fill="#c9a84c"/>
+          <circle cx="18" cy="18" r="3" fill="#c9a84c" opacity="0.6"/>
+        </svg>
+        <div class="topbar-title-group">
+          <span class="topbar-title">Bogotá Cultural</span>
+          <span class="topbar-subtitle">Mapa Artístico</span>
+        </div>
+      </div>
+
+      <div class="topbar-nav">
+        <a class="nav-btn" href="index.html">Mapa</a>
+        <a class="nav-btn active" href="lugares.html">Lugares</a>
+        <a class="nav-btn" href="acerca.html">Acerca</a>
+      </div>
+
+      <div class="topbar-right">
+        <div class="search-wrap">
+          <span class="search-icon">⌕</span>
+          <input id="places-search" type="text" placeholder="Buscar lugar, zona o etiqueta" aria-label="Buscar lugar, zona o etiqueta">
+        </div>
+      </div>
+    </div>
+
+    <main class="page-shell">
+      <section class="page-hero">
+        <div class="page-kicker">Listado completo</div>
+        <h1 class="page-title">Todos los lugares culturales</h1>
+        <p class="page-copy">
+          Esta página reúne la base completa de espacios, rutas y puntos de interés del proyecto.
+          Cada tarjeta resume la información práctica de cada lugar para que puedas compararlos,
+          guardarlos y recorrerlos sin volver al mapa.
+        </p>
+        <div class="page-actions">
+          <a class="page-link-btn" href="index.html">Volver al mapa</a>
+          <a class="page-link-btn secondary" href="acerca.html">Ver por qué se hizo</a>
+        </div>
+        <div class="page-metrics">
+          <div class="metric-card">
+            <span class="metric-value" id="metric-total">0</span>
+            <span class="metric-label">Lugares registrados</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-value" id="metric-zones">0</span>
+            <span class="metric-label">Zonas cubiertas</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-value" id="metric-categories">0</span>
+            <span class="metric-label">Categorías activas</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <div class="toolbar-row">
+          <div>
+            <div class="section-title">Explora la lista</div>
+            <div class="section-subtitle">Filtra por tipo de espacio para encontrar cine, teatro, museos, galerías, danza o música.</div>
+          </div>
+          <div class="filter-chip-row" id="filter-chips">
+            <button class="filter-chip active" data-cat="all" type="button">Todos</button>
+            <button class="filter-chip" data-cat="cine" type="button">Cine</button>
+            <button class="filter-chip" data-cat="teatro" type="button">Teatro</button>
+            <button class="filter-chip" data-cat="museo" type="button">Museo</button>
+            <button class="filter-chip" data-cat="galeria" type="button">Galería</button>
+            <button class="filter-chip" data-cat="danza" type="button">Danza</button>
+            <button class="filter-chip" data-cat="musica" type="button">Música</button>
+          </div>
+        </div>
+        <div class="results-meta">
+          <span id="places-results-count">0 resultados</span>
+          <span>Información tomada de la base local del proyecto</span>
+        </div>
+        <div class="places-grid" id="places-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="data/lugares.js"></script>
+  <script src="js/lugares-page.js"></script>
+</body>
+</html>
